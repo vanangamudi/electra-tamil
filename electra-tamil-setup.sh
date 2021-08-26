@@ -1,27 +1,29 @@
 export ELECTRA_DIR=temp-test
-export DATA_DIR=$ELECTRA_DIR/data
+export DATA_DIR=data
 export TRAIN_SIZE=100000000
 export MODEL_NAME=electra-tamil 
-export CORPUS_URL=http://transfer.sh/1dR7TSL/tamil-corpus.txt.zip
+#export CORPUS_URL=http://transfer.sh/1dR7TSL/tamil-corpus.txt.zip
+export CORPUS_URL=file:///media/vanangamudi/selva/data/tamiltext-corpus/corpus/corpus.uniq.zip
 export CORPUS_PATH=$DATA_DIR/corpus.uniq.txt
 
 # make data directory: this is where model, pretrained records, vocab will live
 mkdir -p $ELECTRA_DIR
-mkdir -p $DATA_DIR
 
 cd $ELECTRA_DIR
+
+mkdir -p $DATA_DIR
 
 virtualenv -p python3 env
 source env/bin/activate
 
 pip3 install tensorflow-gpu==1.15
 pip3 install transformers==2.8.0
+rm -rf electra-tamil
 git clone https://github.com/vanangamudi/electra-tamil.git 
 
 #download corpus
 if [ ! -f $DATA_DIR/corpus.uniq.zip ]; then
     curl $CORPUS_URL -o $DATA_DIR/corpus.uniq.zip
-    unzip -o $DATA_DIR/corpus.uniq.zip -d $DATA_DIR
 fi
 
 if [ ! -f $DATA_DIR/corpus.uniq.txt ]; then
