@@ -80,7 +80,7 @@ class PretrainingConfig(object):
 
     # batch sizes
     self.max_seq_length = 128
-    self.train_batch_size = 128
+    self.train_batch_size = 1280
     self.eval_batch_size = 128
 
     # TPU settings
@@ -116,7 +116,7 @@ class PretrainingConfig(object):
 
     # defaults for different-sized model
     if self.model_size == "small":
-      self.embedding_size = 128
+      self.embedding_size = 256
     # Here are the hyperparameters we used for larger models; see Table 6 in the
     # paper for the full hyperparameters
     # else:
