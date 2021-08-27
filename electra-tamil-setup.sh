@@ -17,7 +17,7 @@ virtualenv -p python3 env
 source env/bin/activate
 
 pip3 install torch
-pip3 install tensorflow-gpu
+pip3 install tensorflow-gpu=1.15.0
 pip3 install transformers
 rm -rf electra-tamil
 git clone https://github.com/vanangamudi/electra-tamil.git 
