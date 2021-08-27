@@ -16,8 +16,9 @@ mkdir -p $DATA_DIR
 virtualenv -p python3 env
 source env/bin/activate
 
-pip3 install tensorflow-gpu==1.15
-pip3 install transformers==2.8.0
+pip3 install torch
+pip3 install tensorflow-gpu
+pip3 install transformers
 rm -rf electra-tamil
 git clone https://github.com/vanangamudi/electra-tamil.git 
 
@@ -30,8 +31,10 @@ if [ ! -f $DATA_DIR/corpus.uniq.txt ]; then
     unzip -o $DATA_DIR/corpus.uniq.zip -d $DATA_DIR
 fi
 
+echo "building tamil vocab"
 python3 electra-tamil/build_tamil_vocab.py
 
+echo "building pretraining tf records"
 python3 electra-tamil/build_pretraining_dataset.py \
   --corpus-dir $DATA_DIR \
   --vocab-file $DATA_DIR/vocab.txt \
@@ -41,6 +44,7 @@ python3 electra-tamil/build_pretraining_dataset.py \
   --no-lower-case \
   --num-processes 5
 
+echo "pretraining..."
 python3 electra-tamil/run_pretraining.py \
   --data-dir $DATA_DIR \
   --model-name $MODEL_NAME \
