@@ -1,4 +1,4 @@
-export ELECTRA_DIR=temp-test
+export ELECTRA_DIR=corpus-bpe
 export DATA_DIR=data
 export TRAIN_SIZE=100000000
 export MODEL_NAME=electra-tamil 
@@ -30,9 +30,6 @@ fi
 if [ ! -f $DATA_DIR/corpus.uniq.txt ]; then
     unzip -o $DATA_DIR/corpus.uniq.zip -d $DATA_DIR
 fi
-
-echo "building tamil vocab"
-python3 electra-tamil/build_tamil_vocab.py
 
 echo "building pretraining tf records"
 python3 electra-tamil/build_pretraining_dataset.py \
