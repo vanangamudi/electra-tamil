@@ -22,14 +22,19 @@ pip3 install transformers
 rm -rf electra-tamil
 git clone https://github.com/vanangamudi/electra-tamil.git 
 
-#download corpus
-if [ ! -f $DATA_DIR/corpus.uniq.zip ]; then
-    curl $CORPUS_URL -o $DATA_DIR/corpus.uniq.zip
-fi
+cd electra-tamil
+git checkout -b corpus-nonbpe
+cd ..
 
+#download corpus
 if [ ! -f $DATA_DIR/corpus.uniq.txt ]; then
+    if [ ! -f $DATA_DIR/corpus.uniq.zip ]; then
+	curl $CORPUS_URL -o $DATA_DIR/corpus.uniq.zip
+    fi
     unzip -o $DATA_DIR/corpus.uniq.zip -d $DATA_DIR
 fi
+
+#vocabulary is downloaded from google drive
 
 echo "building pretraining tf records"
 python3 electra-tamil/build_pretraining_dataset.py \
