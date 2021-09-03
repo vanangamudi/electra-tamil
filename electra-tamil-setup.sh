@@ -31,8 +31,11 @@ if [ ! -f $DATA_DIR/corpus.uniq.txt ]; then
     unzip -o $DATA_DIR/corpus.uniq.zip -d $DATA_DIR
 fi
 
-echo "building tamil vocab"
-python3 electra-tamil/build_tamil_vocab.py
+if [ ! -f $DATA_DIR/vocab.txt ]; then
+    echo "building tamil vocab"
+    python3 electra-tamil/build_tamil_vocab.py
+
+fi
 
 echo "building pretraining tf records"
 python3 electra-tamil/build_pretraining_dataset.py \
