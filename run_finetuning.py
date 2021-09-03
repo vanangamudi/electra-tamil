@@ -33,13 +33,14 @@ from model import optimization
 from util import training_utils
 from util import utils
 
-
+from pprint import pprint
 class FinetuningModel(object):
   """Finetuning model with support for multi-task training."""
 
   def __init__(self, config: configure_finetuning.FinetuningConfig, tasks,
                is_training, features, num_train_steps):
     # Create a shared transformer encoder
+    pprint(config)
     bert_config = training_utils.get_bert_config(config)
     self.bert_config = bert_config
     if config.debug:

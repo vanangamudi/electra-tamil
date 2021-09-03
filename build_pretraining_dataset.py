@@ -120,6 +120,7 @@ class ExampleWriter(object):
   def __init__(self, job_id, vocab_file, output_dir, max_seq_length,
                num_jobs, blanks_separate_docs, do_lower_case,
                num_out_files=1000, strip_accents=True):
+    self.job_id = job_id
     self._blanks_separate_docs = blanks_separate_docs
     tokenizer = tokenization.FullTokenizer(
         vocab_file=vocab_file,
@@ -137,6 +138,7 @@ class ExampleWriter(object):
 
   def write_examples(self, input_file):
     """Writes out examples from the provided input file."""
+    print('Job {}: processing {}...'.format(self.job_id, input_file))
     with tf.io.gfile.GFile(input_file) as f:
       for line in f:
         line = line.strip()
@@ -151,6 +153,8 @@ class ExampleWriter(object):
         self._writers[self.n_written % len(self._writers)].write(
             example.SerializeToString())
         self.n_written += 1
+        
+    print('Job {}: processing {}... Done'.format(self.job_id, input_file))
 
   def finish(self):
     for writer in self._writers:
@@ -177,9 +181,13 @@ def write_examples(job_id, args):
   )
   log("Writing tf examples")
   fnames = sorted(tf.io.gfile.listdir(args.corpus_dir))
+  fnames = [fname for fname in fnames if fname.endswith('.txt')]
+
   fnames = [f for (i, f) in enumerate(fnames)
             if i % args.num_processes == job_id]
+  
   random.shuffle(fnames)
+
   start_time = time.time()
   for file_no, fname in enumerate(fnames):
     if file_no > 0:
