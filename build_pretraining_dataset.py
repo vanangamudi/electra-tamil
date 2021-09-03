@@ -181,7 +181,8 @@ def write_examples(job_id, args):
   )
   log("Writing tf examples")
   fnames = sorted(tf.io.gfile.listdir(args.corpus_dir))
-  print(fnames)
+  fnames = [fname for fname in fnames if fname.endswith('.txt')]
+
   fnames = [f for (i, f) in enumerate(fnames)
             if i % args.num_processes == job_id]
   
