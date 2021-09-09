@@ -80,8 +80,8 @@ class PretrainingConfig(object):
 
     # batch sizes
     self.max_seq_length = 128
-    self.train_batch_size = 128
-    self.eval_batch_size = 128
+    self.train_batch_size = 32
+    self.eval_batch_size = 32
 
     # TPU settings
     self.use_tpu = False
